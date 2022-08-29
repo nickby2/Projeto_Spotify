@@ -25,99 +25,84 @@ if (newFile == NULL){
     char linhaDoArquivo[22];
 
     //Inicialização para var que irá marcar mês e ano
-    char year_month[8], *ano;
+    char ano[5], mes[3], verify_mes[3];
 
     //Inicialização para vars que irão calcular Media do Mês
     float month_media = 0;
-    int qnt_linhas = 1;
-    
+    int qnt_linhas = 0;
+
     //Loop para ler linhas
-    while (fgets(linhaDoArquivo, sizeof(linhaDoArquivo), fileName)){
+    while (fgets(linhaDoArquivo, sizeof(linhaDoArquivo)+1, fileName)){
 
-        //ano = strtok(linhaDoArquivo,'-');
-        //printf("Ano: %s", ano);
+        //Var que guarda a string separada pelo caractere
+        char *separated_line, *test_line;
 
-        // Primeira vez que rodar, irá salvar ano-mês da primeira linha
-        if (year_month[0] == '\0'){
-            strncpy(year_month, linhaDoArquivo,7);
-        }
+        test_line = strtok(linhaDoArquivo,"-");
+        test_line = strtok(NULL,"-");
+        strcpy(verify_mes, test_line);
 
-        //Verificação de mudança de mês
+        //Retornando conectivos para linhaDoArquivo
+        linhaDoArquivo[4]= '-';
+        linhaDoArquivo[7]= '-';
 
-        //Talvez separar ano-mes com strtok e copiar
-        if (strncmp(year_month,linhaDoArquivo,7) != 0){
-        //Testar if diferente
-        //if (year_month[5] == linhaDoArquivo[5] && year_month[6]== linhaDoArquivo[6]){
+        //Só rodar quando mês da linha atual for diferente do mês da linha anterior
+        if (mes[0] == '\0'|| strcmp(mes,verify_mes) != 0){
 
-            //Escrita da linha em novo arquivo
-            for(int i=0;i<=9;i++){
-                if (i==4){
-                    fputc('_', newFile);
-                }
-                else if (i==7){
-                    fputc(',', newFile);
-                }
-                else if (i==8){
 
-                    //Calculo real da média, caso 1 linha apenas (evitar divisão por 0)
-                    if (qnt_linhas == 1){
-                        month_media = month_media / (qnt_linhas);
-                    }
+        //Escrevendo em novo arquivo (com segurança para não acontecer na primeira vez que o programa rodar)
+        if (month_media > 0){
 
-                    else {
-                    // Calculo real da media
-                    month_media = month_media / (qnt_linhas-1);
-                    }
+            //Calculo real da média
+            month_media = (month_media*1.0)/qnt_linhas;
 
-                    fprintf (newFile, "%f", month_media);
-                }
-                else if (i==9){
-                    fputc('\n', newFile);
-                }
-                else {
-                fputc(year_month[i], newFile);
-                }
-            }
-
-            //Mudando o mês para nova média
-            year_month[0] = '\0'; //Conferir reinicialização
-            strncpy(year_month,linhaDoArquivo,7);
-
-            //Reiniciando a media
+            //Escrita
+            fprintf(newFile, "%s_%s,%.2f\n",ano,mes,month_media);
+            
+            printf("\n%d\n",qnt_linhas);
+            //Reset de variáveis
             month_media = 0;
-            qnt_linhas = 1;
+            qnt_linhas = 0;
+
+            printf("Escrito mes\n");
+        }
+
+        //Separando por -
+        separated_line = strtok(linhaDoArquivo,"-");
+        // separated_line = AAAA
+
+        //ano irá receber AAAA
+        strcpy(ano,separated_line);
+
+        //Separando por - novamente
+        separated_line = strtok(NULL,"-");
+        // = MM
+
+        //mes irá receber MM
+        strcpy(mes,separated_line);
+
+        //Retornando conectivos para linhaDoArquivo
+        linhaDoArquivo[4]= '-';
+        linhaDoArquivo[7]= '-';
 
         }
 
-        //Inicialização de variável para guardar as colunas do csv
-        char *separatedLine;
+        // Separando antes da vírgula
+        separated_line = strtok(linhaDoArquivo,",");
 
-        //Separar colunas pela vírgula
-        separatedLine = strtok(linhaDoArquivo,',');
-        printf("%s", separatedLine);
-        //separatedLine = AAAA-MM-DD HH:MM:SS
+        //Indo para após a primeira vírgula
+        separated_line = strtok(NULL,",");
 
+        //Convertendo string em inteiro
+        month_media += atoi(separated_line);
 
-        //Variável para verificar coluna
-        int coluna = 0;
+        //Finalização da linha
+        qnt_linhas++;
 
-        while (separatedLine!= NULL){
-
-            // Calcular media
-            if (coluna == 1){
-
-                //Transformar string em int;
-                month_media += atoi(separatedLine);
-                qnt_linhas++;
-            }
-            else {
-                coluna++;
-            }
-            //Mudar para próxima coluna
-            separatedLine = strtok (NULL,",");
-        }
+        //printf("%s",linhaDoArquivo);
+    
     }
-    fclose("Reviews_test.csv");
-    fclose("Graph_data.csv");
+    printf("\n");
+    fclose(fileName);
+    fclose(newFile);
     return 0;
 }
