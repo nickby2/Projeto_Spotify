@@ -101,8 +101,17 @@ if (newFile == NULL){
         //printf("%s",linhaDoArquivo);
     
     }
+    ////Calculo real da média para último mês
+     month_media = (month_media*1.0)/qnt_linhas;
+
+            //Escrita no arquivo para último mês
+            fprintf(newFile, "%s_%s,%.2f\n",ano,mes,month_media);
+
     printf("\n");
+
+    //Fechando arquivos
     fclose(fileName);
     fclose(newFile);
+    
     return 0;
 }
