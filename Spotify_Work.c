@@ -22,11 +22,10 @@ if (newFile == NULL){
     }
 
     //Inicialização para var que irá conter a linha
-    char linhaDoArquivo[21];
+    char linhaDoArquivo[22];
 
     //Inicialização para var que irá marcar mês e ano
-    char year_month[7];
-    year_month[0] = 'X';
+    char year_month[8], *ano;
 
     //Inicialização para vars que irão calcular Media do Mês
     float month_media = 0;
@@ -35,8 +34,11 @@ if (newFile == NULL){
     //Loop para ler linhas
     while (fgets(linhaDoArquivo, sizeof(linhaDoArquivo), fileName)){
 
+        //ano = strtok(linhaDoArquivo,'-');
+        //printf("Ano: %s", ano);
+
         // Primeira vez que rodar, irá salvar ano-mês da primeira linha
-        if (year_month[0] == 'X'){
+        if (year_month[0] == '\0'){
             strncpy(year_month, linhaDoArquivo,7);
         }
 
@@ -44,6 +46,8 @@ if (newFile == NULL){
 
         //Talvez separar ano-mes com strtok e copiar
         if (strncmp(year_month,linhaDoArquivo,7) != 0){
+        //Testar if diferente
+        //if (year_month[5] == linhaDoArquivo[5] && year_month[6]== linhaDoArquivo[6]){
 
             //Escrita da linha em novo arquivo
             for(int i=0;i<=9;i++){
@@ -90,6 +94,7 @@ if (newFile == NULL){
 
         //Separar colunas pela vírgula
         separatedLine = strtok(linhaDoArquivo,',');
+        printf("%s", separatedLine);
         //separatedLine = AAAA-MM-DD HH:MM:SS
 
 
