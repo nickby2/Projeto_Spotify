@@ -58,12 +58,9 @@ if (newFile == NULL){
             //Escrita
             fprintf(newFile, "%s_%s,%.2f\n",ano,mes,month_media);
             
-            printf("\n%d\n",qnt_linhas);
             //Reset de variáveis
             month_media = 0;
             qnt_linhas = 0;
-
-            printf("Escrito mes\n");
         }
 
         //Separando por -
