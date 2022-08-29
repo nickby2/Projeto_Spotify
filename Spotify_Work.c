@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <time.h>
 
 int main (void){
+    
+    clock_t inicio = clock();
 
     FILE *fileName, *newFile;
 
@@ -109,6 +111,12 @@ if (newFile == NULL){
     //Fechando arquivos
     fclose(fileName);
     fclose(newFile);
+    
+    clock_t fim = clock();
+
+    double tempofin = (double) (fim - inicio) / CLOCKS_PER_SEC;
+
+    printf("\nTempo de execução: %fs\n", tempofin);
     
     return 0;
 }
