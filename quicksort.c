@@ -74,8 +74,6 @@ void printArray(float array[], int size) {
   }
   printf("\n");
 }
-  
-}
 
 int main() {
 
