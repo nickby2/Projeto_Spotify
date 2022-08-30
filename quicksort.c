@@ -102,12 +102,12 @@ int main() {
   printf("%f\n", data[i]);
   }
   
-  printf("Unsorted Array\n");
+  //printf("Vetor desordenado: \n"); //(Opção para ver o vetor antes da ordenação)
   printArray(data, tam);
   
   quickSort(data, 0, tam - 1);
   
-  printf("Sorted array in ascending order: \n");
+  //printf("Vetor ordenado: \n"); ////(Opção para ver o vetor depois da ordenação)
   printArray(data, tam);
   
 fclose(fp);
