@@ -8,7 +8,7 @@ int c;
 int nlinhas = 0; /* contador do número de linhas */
 FILE *fp;
 /* abre arquivo para leitura */
-//fp = fopen("Reviews_modified.csv","r+"); //(Faz o quicksort pro dataset inteiro)
+//fp = fopen("Reviews_modified.csv","r+"); //(Lê o número de linhas pro dataset inteiro)
 fp = fopen("Graph_data.csv","rt");
 if (fp==NULL) {
 printf("Não foi possivel abrir arquivo.\n");
@@ -87,7 +87,7 @@ int main() {
   int i, ano, mes, data_aux[tam], mes_aux[tam];
   float data[tam];
 
-  //fp = fopen("Reviews_modified.csv","r+"); //(Faz o quicksort pro dataset inteiro)
+  //fp = fopen("Reviews_modified.csv","r+"); //(Abre o arquivo do dataset completo)
   fp = fopen("Graph_data.csv","r+");
     if (fp == NULL){
         printf("Erro ao abrir arquivo");
@@ -95,7 +95,7 @@ int main() {
     }
 
   for(i = tam - 1; i >= 0; i--){
-  //fscanf(fp, "%d-%d-%d %d:%d:%d,%f\n", &ano, &mes, &dia, &hora1, &hora2, &hora3, &data[i]); //(Faz o quicksort pro dataset inteiro)
+  //fscanf(fp, "%d-%d-%d %d:%d:%d,%f\n", &ano, &mes, &dia, &hora1, &hora2, &hora3, &data[i]); //(Scaneia o dataset completo)
   fscanf(fp, "%d%*c %d%*c %f", &ano, &mes, &data[i]);
   data_aux[mes - 1] = data[i];
   printf("%d\n", mes);
@@ -105,7 +105,6 @@ int main() {
   printf("Unsorted Array\n");
   printArray(data, tam);
   
-  // perform quicksort on data
   quickSort(data, 0, tam - 1);
   
   printf("Sorted array in ascending order: \n");
